@@ -1,0 +1,48 @@
+services:
+  sqlserver:
+    image: 'mcr.microsoft.com/mssql/server:2017-latest'
+    container_name: sqlserver
+    env_file:
+       - .env
+    ports:
+      - '1433:1433'
+    volumes:
+      - ./start-sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend
+
+  sqltools:
+    image: mcr.microsoft.com/mssql-tools
+    hostname: sqltools
+    container_name: sqltools
+    depends_on:
+      - sqlserver
+    volumes:
+      - "./start-sql:/tmp"
+    command: /bin/bash ./tmp/init-db.sh
+    networks:
+      - backend
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    depends_on:
+        - sqlserver
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=PRODUTODB;encrypt=false
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: senha@12345
+    restart: unless-stopped
+    networks:
+      - backend
+    command: [ "./gradlew", "bootRun" ]
+    entrypoint: ["/start-app.sh"]
+
+
+networks:
+  backend:
+     driver: bridge
