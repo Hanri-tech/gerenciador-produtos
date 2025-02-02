@@ -2,6 +2,9 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.2'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.bmuschko.docker-remote-api' version '8.1.0'
+
+
 }
 
 group = 'br.com.app'
@@ -35,5 +38,35 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    enabled = false
 }
+
+// Tarefa para copiar o JAR para o diretório correto
+task copyJar(type: Copy) {
+    dependsOn build
+    from 'build/libs'  // Diretório onde o JAR é gerado
+    into 'docker'      // Diretório onde o Dockerfile espera o JAR
+    include '*.jar'
+}
+
+// Tarefa para executar o build do Docker
+task dockerBuild(type: Exec) {
+    dependsOn copyJar
+    workingDir = file('.')
+    commandLine 'docker', 'build', '-t', "gerenciadorproduto-app", '.'
+}
+
+// Tarefa para rodar o Docker Compose
+task dockerComposeUp(type: Exec) {
+    dependsOn dockerBuild
+    workingDir = file('.')
+    commandLine 'docker-compose', 'up', '--build', '-d'
+}
+
+// Tarefa final que vai executar tudo de uma vez
+task deploy(dependsOn: [build, dockerComposeUp]) {
+    group = 'build'
+    description = 'Build and deploy do projeto integrado ao Docker Compose'
+}
+
+

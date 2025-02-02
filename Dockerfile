@@ -10,10 +10,11 @@ RUN chmod +x /start-app.sh
 
 WORKDIR /app
 
+# Copiar o arquivo JAR gerado pelo Gradle
 COPY build/libs/gerenciadorproduto-1.0.jar /app/gerenciadorproduto-1.0.jar
 
 EXPOSE 8080
 
 
-# Executa o script de controle
+# Executa o script de iniciar o spring boot
 ENTRYPOINT ["/start-app.sh"]

@@ -10,4 +10,4 @@ done
 
 # Quando o SQL Server estiver ouvindo, inicia a aplicação
 echo "SQL Server está ouvindo na porta 1433. Iniciando aplicação..."
-java -jar /app/gerenciadorproduto-1.0.jar
+exec java -jar /app/gerenciadorproduto-1.0.jar

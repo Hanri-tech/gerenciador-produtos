@@ -39,10 +39,7 @@ services:
     restart: unless-stopped
     networks:
       - backend
-    command: [ "./gradlew", "bootRun" ]
     entrypoint: ["/start-app.sh"]
-
-
 networks:
   backend:
      driver: bridge
