@@ -46,7 +46,7 @@ Abaixo estão as instruções sobre como rodar o projeto, configurar o ambiente,
 - Construirá a imagem Docker da aplicação.
 
 - Iniciará os contêineres usando Docker Compose.
-- 
+  
 4. Após aguardar o deploy a API estará acessível em http://localhost:8080.
 
 5. Monitora o log da aplicação
