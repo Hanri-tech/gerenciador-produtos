@@ -38,6 +38,10 @@ Abaixo estão as instruções sobre como rodar o projeto, configurar o ambiente,
 - Esse comando fará o seguinte:
 
 - Construirá o projeto e gerará o arquivo JAR.
+  
+- Contruirá a imagem Docker do SqlServer
+  
+- Rodará automaticamente a criação do Banco.
 
 - Construirá a imagem Docker da aplicação.
 
