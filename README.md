@@ -194,6 +194,29 @@ Os logs serão exibidos no terminal durante a execução. Caso tenha sido config
   DELETE /categorias/{id}
   ```
 
+**Filtrar Categorias por Nome**
+    ```http
+    GET /categorias/filtrar
+    ```
+Parâmetros:
+- `nome` (String) - Nome da categoria a ser filtrada.
+- `page` (Integer) - Número da página.
+- `size` (Integer) - Quantidade de itens por página.
+
+  **Resposta de Sucesso (200 OK)**:
+  ```json
+  {
+    "content": [
+      {
+        "id": 1,
+        "nome": "Eletrônicos"
+      }
+    ],
+    "totalPages": 1,
+    "totalElements": 1
+  }
+  ```
+
 ### Produto Controller
 - **Criar Produto**
   ```http
@@ -235,6 +258,71 @@ Os logs serão exibidos no terminal durante a execução. Caso tenha sido config
   ```http
   DELETE /produtos/{id}
   ```
+
+  **Filtrar Produtos por Quantidade**
+  ```http
+  GET /produtos/filtrar
+  ```
+  Parâmetros:
+  - `quantidade` (Integer) - Quantidade mínima do produto a ser filtrado.
+    - `page` (Integer) - Número da página.
+    - `size` (Integer) - Quantidade de itens por página.
+  
+    **Resposta de Sucesso (200 OK)**:
+    ```json
+    {
+      "content": [
+        {
+          "id": 1,
+          "nome": "Notebook",
+          "descricao": "Notebook Gamer",
+          "preco": 2500.0,
+          "quantidade": 10,
+          "categoriaId": 1
+        }
+      ],
+      "totalPages": 1,
+      "totalElements": 1
+    }
+    ```
+
+  **Pesquisa de Produtos com Filtros**
+  - **Pesquisar Produtos**
+    ```http
+    GET /produtos/filtros
+    ```
+    Parâmetros de Consulta (Query Params):
+    - `nome` (opcional): Nome do produto.
+    - `precoMin` (opcional): Preço mínimo do produto.
+    - `precoMax` (opcional): Preço máximo do produto.
+    - `descricao` (opcional): Descrição do produto.
+    - `quantidadeMin` (opcional): Quantidade mínima em estoque.
+    - `quantidadeMax` (opcional): Quantidade máxima em estoque.
+    - `categoria` (opcional): ID da categoria do produto.
+  
+    **Exemplo de Requisição:**
+    ```http
+    GET /produtos/filtros?nome=Celular&precoMin=1000&precoMax=5000
+    ```
+  
+    **Resposta Exemplo:**
+    ```json
+    [
+      {
+        "id": 1,
+        "nome": "Celular",
+        "descricao": "Celular Smartphone",
+        "preco": 2500.00,
+        "quantidade": 15,
+        "categoria": {
+          "id": 2,
+          "nome": "Eletrônicos"
+        }
+      }
+    ]
+    ```
+    
+
 
 ## Testes
 O projeto contém testes unitários para os services de Categoria e Produto, utilizando **JUnit 5 e Mockito**.
