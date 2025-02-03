@@ -341,3 +341,5 @@ Os testes cobrem os seguintes cenários:
 - Atualização de dados
 - Remoção de registros
 
+Abaixo Arquivo da Coleção dos Endpoint do Postman
+[Desafio-suitpay.postman_collection.json](..%2F..%2FDownloads%2FDesafio-suitpay.postman_collection.json)
